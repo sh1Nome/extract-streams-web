@@ -1,0 +1,7 @@
+services:
+  python:
+    build: "./python"
+    init: true
+    command: "tail -f /dev/null"
+  node:
+    image: "node:23-slim"
