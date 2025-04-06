@@ -2,6 +2,10 @@ services:
   python:
     build: "./python"
     init: true
-    command: "tail -f /dev/null"
+    volumes:
+      - "./python/apisource:/home/work/apisource"
+    ports:
+      - "8000:8000"
+    command: ["./.local/bin/uvicorn", "apisource.main:app", "--host", "0.0.0.0", "--reload"]
   node:
     image: "node:23-slim"
