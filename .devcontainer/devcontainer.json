@@ -2,7 +2,7 @@
   "name": "Python DevContainer",
   "dockerComposeFile": "../docker-compose.yml",
   "service": "python",
-  "workspaceFolder": "/home/work",
+  "workspaceFolder": "/home/work/apisource",
   "customizations": {
     "vscode": {
       "extensions": [
