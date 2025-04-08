@@ -3,8 +3,6 @@ from fastapi.responses import StreamingResponse
 import io
 
 from core.di import get_audio_extractor_service
-from infrastructure.ffmpeg_audio_extractor import FFmpegAudioExtractor
-from infrastructure.zip_archiver import ZipArchiver
 from service.audio_extractor_service import AudioExtractorService
 
 router = APIRouter()
