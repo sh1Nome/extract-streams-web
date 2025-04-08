@@ -6,6 +6,7 @@ services:
       - "./python/apisource:/home/work/apisource"
     ports:
       - "8000:8000"
-    command: ["./.local/bin/uvicorn", "apisource.main:app", "--host", "0.0.0.0", "--reload"]
+    working_dir: "/home/work/apisource"
+    command: ["../.local/bin/uvicorn", "main:app", "--host", "0.0.0.0", "--reload"]
   node:
     image: "node:23-slim"
