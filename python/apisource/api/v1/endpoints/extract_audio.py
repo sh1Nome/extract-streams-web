@@ -14,10 +14,7 @@ async def extract_audio(
     file: UploadFile = File(...),
     service: AudioExtractorService = Depends(get_audio_extractor_service)
 ):
-    try:
-        archive_content, archive_name = await service.extract(file)
-        return StreamingResponse(io.BytesIO(archive_content), media_type="application/zip", headers={
-            "Content-Disposition": f"attachment; filename={archive_name}"
-        })
-    except Exception as e:
-        return {"error": str(e)}
+    archive_content, archive_name = await service.extract(file)
+    return StreamingResponse(io.BytesIO(archive_content), media_type="application/zip", headers={
+        "Content-Disposition": f"attachment; filename={archive_name}"
+    })
