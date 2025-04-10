@@ -4,7 +4,7 @@ from babel.support import Translations
 import os
 
 from api.v1.endpoints import extract_audio
-from core.extract_audio_exception import ExtractAudioException
+from domain.interfaces.audio_extractor_interface import AudioTrackRetrievalException, AudioExtractionFailedException
 
 app = FastAPI(
     title="Audio Extractor API",
@@ -23,10 +23,18 @@ async def add_translation_middleware(request: Request, call_next):
     response = await call_next(request)
     return response
 
-@app.exception_handler(ExtractAudioException)
-async def custom_exception_handler(request: Request, exc: ExtractAudioException):
+# 例外処理
+@app.exception_handler(AudioTrackRetrievalException)
+async def audio_track_retrieval_exception_handler(request: Request, exc: AudioTrackRetrievalException):
     _ = request.state.translations.gettext
-    message = _(exc.message_key).format(**exc.kwargs)
+    message = _("error.audio_track_retrieval")
     return JSONResponse(status_code=500, content={"message": message})
 
+@app.exception_handler(AudioExtractionFailedException)
+async def audio_extraction_failed_exception_handler(request: Request, exc: AudioExtractionFailedException):
+    _ = request.state.translations.gettext
+    message = _("error.audio_extraction_failed")
+    return JSONResponse(status_code=500, content={"message": message})
+
+# ルーターの登録
 app.include_router(extract_audio.router, prefix="/api/v1")

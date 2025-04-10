@@ -10,3 +10,9 @@ class IAudioExtractor(ABC):
     @abstractmethod
     def extract_audio(self, video_path: str, output_path: Path, track_index: int) -> None:
         pass
+
+class AudioTrackRetrievalException(Exception):
+    pass
+
+class AudioExtractionFailedException(Exception):
+    pass
