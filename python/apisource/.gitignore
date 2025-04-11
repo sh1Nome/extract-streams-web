@@ -1,4 +1,8 @@
+# Pythonのバイトコードキャッシュを無視
 __pycache__
 
-# Ignore compiled translation files
+# コンパイル済み翻訳ファイルを無視
 translations/**/*.mo
+
+# ログディレクトリを無視
+logs/
