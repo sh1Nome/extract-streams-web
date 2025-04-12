@@ -42,13 +42,7 @@ class AudioExtractorService:
             audio_dir = Path(tmp_file.name + "_audio")
             audio_dir.mkdir(parents=True, exist_ok=True)
 
-            audio_tracks = self.extractor.get_audio_tracks(tmp_file.name)
-            audio_files = []
-
-            for i, track_index in enumerate(audio_tracks, start=1):
-                output_path = audio_dir / f"audio_{i}.m4a"
-                self.extractor.extract_audio(tmp_file.name, output_path, track_index)
-                audio_files.append(output_path)
+            audio_files = self.extractor.extract_all_audio(tmp_file.name, audio_dir)
 
             archive_path = tmp_file.name + "_audio.zip"
             archive_bytes = self.archiver.create_archive(audio_files, archive_path)

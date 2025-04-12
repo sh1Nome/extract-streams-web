@@ -10,27 +10,16 @@ class IAudioExtractor(ABC):
     """
 
     @abstractmethod
-    def get_audio_tracks(self, video_path: str) -> List[int]:
+    def extract_all_audio(self, video_path: str, output_dir: Path) -> List[Path]:
         """
-        ビデオファイルから利用可能な音声トラックを取得します。
-
-        Args:
-            video_path (str): 音声トラックを取得するビデオファイルのパス。
-
-        Returns:
-            List[int]: 利用可能な音声トラックのインデックスリスト。
-        """
-        pass
-
-    @abstractmethod
-    def extract_audio(self, video_path: str, output_path: Path, track_index: int) -> None:
-        """
-        指定された音声トラックを抽出して保存します。
+        ビデオファイルからすべての音声トラックを抽出し、指定されたディレクトリに保存します。
 
         Args:
             video_path (str): 音声を抽出するビデオファイルのパス。
-            output_path (Path): 抽出した音声を保存するパス。
-            track_index (int): 抽出する音声トラックのインデックス。
+            output_dir (Path): 抽出した音声を保存するディレクトリ。
+
+        Returns:
+            List[Path]: 抽出された音声ファイルのパスのリスト。
         """
         pass
 
