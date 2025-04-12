@@ -1,3 +1,10 @@
+"""
+Audio Extractor APIのエントリーポイント。
+
+このモジュールは、FastAPIアプリケーションを初期化し、
+ミドルウェア、例外ハンドラー、ルーターを登録します。
+"""
+
 from fastapi import FastAPI
 from api.v1.endpoints import extract_audio
 from domain.interfaces.audio_extractor_interface import AudioExtractionFailedException, AudioTrackRetrievalException

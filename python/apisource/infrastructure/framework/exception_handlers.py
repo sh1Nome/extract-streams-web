@@ -5,16 +5,15 @@ from domain.interfaces.audio_extractor_interface import AudioExtractionFailedExc
 
 async def audio_track_retrieval_exception_handler(request: Request, exc: AudioTrackRetrievalException):
     """
-    ハンドラー: AudioTrackRetrievalException を処理します。
+    AudioTrackRetrievalExceptionを処理する例外ハンドラー。
 
-    このハンドラーは、オーディオトラックの取得中に発生した例外を処理し、
-    適切なエラーメッセージを含むJSONレスポンスを返します。
+    オーディオトラックの取得中に発生した例外を処理し、適切なエラーメッセージを含むJSONレスポンスを返します。
 
-    引数:
+    Args:
         request (Request): 受信したHTTPリクエスト。
         exc (AudioTrackRetrievalException): 発生した例外。
 
-    戻り値:
+    Returns:
         JSONResponse: エラーメッセージを含むHTTPレスポンス。
     """
     _ = request.state.translations.gettext
@@ -23,16 +22,15 @@ async def audio_track_retrieval_exception_handler(request: Request, exc: AudioTr
 
 async def audio_extraction_failed_exception_handler(request: Request, exc: AudioExtractionFailedException):
     """
-    ハンドラー: AudioExtractionFailedException を処理します。
+    AudioExtractionFailedExceptionを処理する例外ハンドラー。
 
-    このハンドラーは、オーディオ抽出の失敗時に発生した例外を処理し、
-    適切なエラーメッセージを含むJSONレスポンスを返します。
+    オーディオ抽出の失敗時に発生した例外を処理し、適切なエラーメッセージを含むJSONレスポンスを返します。
 
-    引数:
+    Args:
         request (Request): 受信したHTTPリクエスト。
         exc (AudioExtractionFailedException): 発生した例外。
 
-    戻り値:
+    Returns:
         JSONResponse: エラーメッセージを含むHTTPレスポンス。
     """
     _ = request.state.translations.gettext

@@ -8,6 +8,18 @@ LOCALE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), '../../tran
 DEFAULT_LANGUAGE = 'en'
 
 async def add_translation_middleware(request: Request, call_next):
+    """
+    翻訳ミドルウェア。
+
+    リクエストヘッダーの"Accept-Language"に基づいて翻訳を設定します。
+
+    Args:
+        request (Request): HTTPリクエストオブジェクト。
+        call_next: 次のミドルウェアまたはエンドポイントを呼び出す関数。
+
+    Returns:
+        Response: 処理されたHTTPレスポンス。
+    """
     lang = request.headers.get("Accept-Language", DEFAULT_LANGUAGE)
     translations = Translations.load(LOCALE_DIR, [lang])
     request.state.translations = translations
@@ -26,6 +38,18 @@ logging.basicConfig(
 access_logger = logging.getLogger("access")
 
 async def log_requests_middleware(request: Request, call_next):
+    """
+    リクエストログ記録ミドルウェア。
+
+    各リクエストの処理時間とステータスコードをログに記録します。
+
+    Args:
+        request (Request): HTTPリクエストオブジェクト。
+        call_next: 次のミドルウェアまたはエンドポイントを呼び出す関数。
+
+    Returns:
+        Response: 処理されたHTTPレスポンス。
+    """
     start_time = time.time()
     response = await call_next(request)
     process_time = time.time() - start_time
