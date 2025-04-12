@@ -12,7 +12,15 @@ class IAudioExtractor(ABC):
         pass
 
 class AudioTrackRetrievalException(Exception):
-    pass
+    """
+    オーディオトラックの取得中に発生する例外。
+
+    この例外は、外部サービスや内部処理でオーディオトラックを取得できなかった場合に発生します。
+    """
 
 class AudioExtractionFailedException(Exception):
-    pass
+    """
+    オーディオ抽出処理が失敗した場合に発生する例外。
+
+    この例外は、オーディオファイルの解析や変換中にエラーが発生した場合に発生します。
+    """
