@@ -45,7 +45,7 @@ class FFmpegAudioExtractor(IAudioExtractor):
         try:
             ffmpeg.input(video_path) \
                 .output(str(output_path), acodec='aac', audio_bitrate='192k', map=f"0:{track_index}") \
-                .run()
+                .run(quiet=True)
         except ffmpeg.Error as e:
             raise AudioExtractionFailedException()
 
