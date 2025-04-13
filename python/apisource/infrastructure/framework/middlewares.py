@@ -3,6 +3,7 @@ from fastapi import Request
 from babel.support import Translations
 import os
 import logging
+from logging.handlers import RotatingFileHandler
 
 LOCALE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), '../../translations'))  # パスを修正
 DEFAULT_LANGUAGE = 'en'
@@ -26,16 +27,22 @@ async def add_translation_middleware(request: Request, call_next):
     response = await call_next(request)
     return response
 
-LOG_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), '../../logs'))  # パスを修正
-os.makedirs(LOG_DIR, exist_ok=True)
-
-logging.basicConfig(
-    level=logging.INFO,  # ログレベルを設定
-    filename=os.path.join(LOG_DIR, "access.log"),
-    filemode="a",
-    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
-)
+# アクセスログ用のロガーを設定
 access_logger = logging.getLogger("access")
+access_logger.setLevel(logging.INFO)  # ログレベルを設定
+
+# ログファイルハンドラーを作成
+LOG_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), '../../logs'))
+os.makedirs(LOG_DIR, exist_ok=True)
+log_file = os.path.join(LOG_DIR, "access.log")
+file_handler = RotatingFileHandler(log_file, maxBytes=10**6, backupCount=5)  # ログローテーション設定
+
+# フォーマッターを設定
+formatter = logging.Formatter("%(asctime)s - %(levelname)s - %(message)s")
+file_handler.setFormatter(formatter)
+
+# ハンドラーをロガーに追加
+access_logger.addHandler(file_handler)
 
 async def log_requests_middleware(request: Request, call_next):
     """
