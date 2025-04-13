@@ -7,6 +7,6 @@ services:
     ports:
       - "8000:8000"
     working_dir: "/home/work/apisource"
-    command: ["../.local/bin/uvicorn", "main:app", "--host", "0.0.0.0", "--reload"]
+    command: ["sh", "/home/work/apisource/run_server.sh"]
   node:
     image: "node:23-slim"
