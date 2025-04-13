@@ -17,8 +17,13 @@ os.makedirs(LOG_DIR, exist_ok=True)
 error_log_file = os.path.join(LOG_DIR, "error.log")
 file_handler = RotatingFileHandler(error_log_file, maxBytes=10**6, backupCount=5)  # ログローテーション設定
 
-# フォーマッターを設定
-formatter = logging.Formatter("%(asctime)s - %(levelname)s - %(message)s")
+# カスタムフォーマッターを設定
+class IndentedFormatter(logging.Formatter):
+    def format(self, record):
+        original_message = super().format(record)
+        indented_message = "\n  ".join(original_message.splitlines())
+        return indented_message
+formatter = IndentedFormatter("%(asctime)s - %(levelname)s - %(message)s")
 file_handler.setFormatter(formatter)
 
 # ハンドラーをロガーに追加
