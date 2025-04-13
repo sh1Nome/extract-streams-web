@@ -17,15 +17,19 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.17.0\n"
 
-#: ../infrastructure/framework/exception_handlers.py:21
+#: ../infrastructure/framework/exception_handlers.py:23
 msgid "error.audio_track_retrieval"
 msgstr "Audio track retrieval failed"
 
-#: ../infrastructure/framework/exception_handlers.py:38
+#: ../infrastructure/framework/exception_handlers.py:41
 msgid "error.audio_extraction_failed"
 msgstr "Audio extraction failed"
 
-#: ../infrastructure/framework/exception_handlers.py:55
+#: ../infrastructure/framework/exception_handlers.py:59
 msgid "error.invalid_file_type"
 msgstr "Invalid file type: the uploaded file must be a video."
+
+#: ../infrastructure/framework/exception_handlers.py:75
+msgid "error.unexpected"
+msgstr "An unexpected error occurred."
 
