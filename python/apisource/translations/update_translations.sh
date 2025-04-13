@@ -12,4 +12,10 @@ cd "$(dirname "$0")"
 # Compile .po files into .mo files
 ~/.local/bin/pybabel compile -d .
 
+# Remove the POT-Creation-Date line from messages.pot
+sed -i '/^"POT-Creation-Date:/d' messages.pot
+
+# Remove the POT-Creation-Date line from all .po files
+find . -name "messages.po" -exec sed -i '/^"POT-Creation-Date:/d' {} +
+
 echo "Translation files updated and compiled successfully."
