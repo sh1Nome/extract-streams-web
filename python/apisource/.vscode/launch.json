@@ -1,0 +1,18 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Python: Uvicorn",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "../.local/bin/uvicorn",
+      "args": [
+        "main:app",
+        "--host", "0.0.0.0",
+        "--reload"
+      ],
+      "console": "integratedTerminal",
+      "justMyCode": true
+    }
+  ]
+}
