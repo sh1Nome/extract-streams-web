@@ -58,3 +58,9 @@ async def log_requests_middleware(request: Request, call_next):
         f"{request.method} {request.url.path} - {response.status_code} - {process_time:.2f}s"
     )
     return response
+
+def get_middlewares():
+    """
+    ミドルウェアのリストを返す関数。
+    """
+    return [add_translation_middleware, log_requests_middleware]

@@ -54,3 +54,13 @@ async def invalid_file_type_exception_handler(request: Request, exc: InvalidFile
     _ = request.state.translations.gettext
     message = _("error.invalid_file_type")
     return JSONResponse(status_code=400, content={"message": message})
+
+def get_exception_handlers():
+    """
+    例外ハンドラーのリストを返す関数。
+    """
+    return [
+        (AudioTrackRetrievalException, audio_track_retrieval_exception_handler),
+        (AudioExtractionFailedException, audio_extraction_failed_exception_handler),
+        (InvalidFileTypeException, invalid_file_type_exception_handler),
+    ]

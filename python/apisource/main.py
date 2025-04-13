@@ -7,14 +7,8 @@ Audio Extractor APIのエントリーポイント。
 
 from fastapi import FastAPI
 from api.v1.endpoints import extract_audio
-from domain.interfaces.audio_extractor_interface import AudioExtractionFailedException, AudioTrackRetrievalException
-from api.v1.endpoints.validation_exceptions import InvalidFileTypeException
-from infrastructure.framework.exception_handlers import (
-    audio_extraction_failed_exception_handler,
-    audio_track_retrieval_exception_handler,
-    invalid_file_type_exception_handler,
-)
-from infrastructure.framework.middlewares import add_translation_middleware, log_requests_middleware
+from infrastructure.framework.exception_handlers import get_exception_handlers
+from infrastructure.framework.middlewares import get_middlewares
 
 app = FastAPI(
     title="Audio Extractor API",
@@ -22,13 +16,12 @@ app = FastAPI(
 )
 
 # ミドルウェアの登録
-app.middleware("http")(add_translation_middleware)
-app.middleware("http")(log_requests_middleware)
+for middleware in get_middlewares():
+    app.middleware("http")(middleware)
 
 # 例外ハンドラーの登録
-app.add_exception_handler(AudioTrackRetrievalException, audio_track_retrieval_exception_handler)
-app.add_exception_handler(AudioExtractionFailedException, audio_extraction_failed_exception_handler)
-app.add_exception_handler(InvalidFileTypeException, invalid_file_type_exception_handler)
+for exception, handler in get_exception_handlers():
+    app.add_exception_handler(exception, handler)
 
 # ルーターの登録
 app.include_router(extract_audio.router, prefix="/api/v1")
