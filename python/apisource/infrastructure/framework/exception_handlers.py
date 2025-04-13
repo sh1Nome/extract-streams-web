@@ -2,6 +2,7 @@ from fastapi import Request
 from fastapi.responses import JSONResponse
 
 from domain.interfaces.audio_extractor_interface import AudioExtractionFailedException, AudioTrackRetrievalException
+from api.v1.endpoints.validation_exceptions import InvalidFileTypeException
 
 async def audio_track_retrieval_exception_handler(request: Request, exc: AudioTrackRetrievalException):
     """
@@ -36,3 +37,20 @@ async def audio_extraction_failed_exception_handler(request: Request, exc: Audio
     _ = request.state.translations.gettext
     message = _("error.audio_extraction_failed")
     return JSONResponse(status_code=500, content={"message": message})
+
+async def invalid_file_type_exception_handler(request: Request, exc: InvalidFileTypeException):
+    """
+    InvalidFileTypeExceptionを処理する例外ハンドラー。
+
+    動画形式でないファイルがアップロードされた場合に適切なエラーメッセージを含むJSONレスポンスを返します。
+
+    Args:
+        request (Request): 受信したHTTPリクエスト。
+        exc (InvalidFileTypeException): 発生した例外。
+
+    Returns:
+        JSONResponse: エラーメッセージを含むHTTPレスポンス。
+    """
+    _ = request.state.translations.gettext
+    message = _("error.invalid_file_type")
+    return JSONResponse(status_code=400, content={"message": message})

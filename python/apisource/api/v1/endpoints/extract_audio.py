@@ -2,6 +2,7 @@ from fastapi import APIRouter, UploadFile, File, Depends
 from fastapi.responses import StreamingResponse
 import io
 
+from api.v1.endpoints.validation_exceptions import InvalidFileTypeException
 from infrastructure.framework.di import get_audio_extractor_service
 from service.audio_extractor_service import AudioExtractorService
 
@@ -22,6 +23,9 @@ async def extract_audio(
     Returns:
         StreamingResponse: 抽出された音声アーカイブを含むレスポンス。
     """
+    if not file.content_type.startswith("video/"):
+        raise InvalidFileTypeException()
+
     file_content = await file.read()
     archive_content, archive_name = await service.extract(file.filename, file_content)
     return StreamingResponse(io.BytesIO(archive_content), media_type="application/zip", headers={
