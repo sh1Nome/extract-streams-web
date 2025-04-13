@@ -27,8 +27,6 @@ async def add_translation_middleware(request: Request, call_next):
     response = await call_next(request)
     return response
 
-access_logger = get_access_logger()
-
 async def log_requests_middleware(request: Request, call_next):
     """
     リクエストログ記録ミドルウェア。
@@ -46,7 +44,7 @@ async def log_requests_middleware(request: Request, call_next):
     response = await call_next(request)
     process_time = time.time() - start_time
 
-    access_logger.info(
+    get_access_logger().info(
         f"{request.method} {request.url.path} - {response.status_code} - {process_time:.2f}s"
     )
     return response
