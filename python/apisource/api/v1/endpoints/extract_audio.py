@@ -2,7 +2,7 @@ from fastapi import APIRouter, UploadFile, File, Depends
 from fastapi.responses import StreamingResponse
 import io
 
-from core.di import get_audio_extractor_service
+from infrastructure.framework.di import get_audio_extractor_service
 from service.audio_extractor_service import AudioExtractorService
 
 router = APIRouter()
@@ -22,7 +22,8 @@ async def extract_audio(
     Returns:
         StreamingResponse: 抽出された音声アーカイブを含むレスポンス。
     """
-    archive_content, archive_name = await service.extract(file)
+    file_content = await file.read()
+    archive_content, archive_name = await service.extract(file.filename, file_content)
     return StreamingResponse(io.BytesIO(archive_content), media_type="application/zip", headers={
         "Content-Disposition": f"attachment; filename={archive_name}"
     })

@@ -1,6 +1,5 @@
 import tempfile
 from pathlib import Path
-from fastapi import UploadFile
 
 from domain.interfaces.archiver_interface import IArchiver
 from domain.interfaces.audio_extractor_interface import IAudioExtractor
@@ -23,20 +22,19 @@ class AudioExtractorService:
         self.extractor = extractor
         self.archiver = archiver
 
-    async def extract(self, file: UploadFile):
+    async def extract(self, file_name: str, file_content: bytes):
         """
-        アップロードされたビデオファイルから音声を抽出し、アーカイブを作成します。
+        ビデオファイルから音声を抽出し、アーカイブを作成します。
 
         Args:
-            file (UploadFile): 音声を抽出する対象のビデオファイル。
+            file_name (str): ファイル名。
+            file_content (bytes): ファイルのバイトデータ。
 
         Returns:
             tuple: アーカイブのバイトデータとアーカイブファイル名。
         """
-        video_content = await file.read()
-
-        with tempfile.NamedTemporaryFile(delete=False, suffix=".mp4") as tmp_file:
-            tmp_file.write(video_content)
+        with tempfile.NamedTemporaryFile(delete=False, suffix=Path(file_name).suffix) as tmp_file:
+            tmp_file.write(file_content)
             tmp_file.close()
 
             audio_dir = Path(tmp_file.name + "_audio")
