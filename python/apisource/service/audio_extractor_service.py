@@ -45,7 +45,7 @@ class AudioExtractorService:
             audio_dir.mkdir(parents=True, exist_ok=True)
 
             # 音声抽出処理を実行
-            audio_files = self.extractor.extract_all_audio(tmp_file.name, audio_dir)
+            audio_files = await self.extractor.extract_all_audio(tmp_file.name, audio_dir)
 
             # 抽出した音声ファイルをZIPアーカイブに圧縮
             archive_path = tmp_file.name + "_audio.zip"
