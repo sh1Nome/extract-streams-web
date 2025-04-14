@@ -13,6 +13,9 @@ LOG_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), '../../logs'))
 os.makedirs(LOG_DIR, exist_ok=True)
 
 class IndentedFormatter(logging.Formatter):
+    def __init__(self, fmt="%(asctime)s - %(levelname)s - %(message)s", datefmt="%Y-%m-%dT%H:%M:%S"):
+        super().__init__(fmt=fmt, datefmt=datefmt)
+
     def format(self, record):
         original_message = super().format(record)
         indented_message = "\n  ".join(original_message.splitlines())
@@ -23,7 +26,7 @@ access_logger = logging.getLogger("access")
 access_logger.setLevel(logging.INFO)
 access_log_file = os.path.join(LOG_DIR, "access.log")
 access_file_handler = RotatingFileHandler(access_log_file, maxBytes=10**6, backupCount=5)
-access_formatter = IndentedFormatter("%(asctime)s - %(levelname)s - %(message)s", datefmt="%Y-%m-%dT%H:%M:%S")
+access_formatter = IndentedFormatter()
 access_file_handler.setFormatter(access_formatter)
 access_logger.addHandler(access_file_handler)
 def get_access_logger() -> logging.Logger:
@@ -40,7 +43,7 @@ error_logger = logging.getLogger("error")
 error_logger.setLevel(logging.ERROR)
 error_log_file = os.path.join(LOG_DIR, "error.log")
 error_file_handler = RotatingFileHandler(error_log_file, maxBytes=10**6, backupCount=5)
-error_formatter = IndentedFormatter("%(asctime)s - %(levelname)s - %(message)s", datefmt="%Y-%m-%dT%H:%M:%S")
+error_formatter = IndentedFormatter()
 error_file_handler.setFormatter(error_formatter)
 error_logger.addHandler(error_file_handler)
 def get_error_logger() -> logging.Logger:
