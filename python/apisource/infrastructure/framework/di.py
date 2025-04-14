@@ -7,14 +7,20 @@ from domain.interfaces.audio_extractor_interface import IAudioExtractor
 from infrastructure.ffmpeg_audio_extractor import FFmpegAudioExtractor
 from infrastructure.zip_archiver import ZipArchiver
 from service.audio_extractor_service import AudioExtractorService
+from datetime import datetime
 
 # ログ設定
 LOG_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), '../../logs'))
 os.makedirs(LOG_DIR, exist_ok=True)
 
 class IndentedFormatter(logging.Formatter):
-    def __init__(self, fmt="%(asctime)s - %(levelname)s - %(message)s", datefmt="%Y-%m-%dT%H:%M:%S"):
+    def __init__(self, fmt="%(asctime)s - %(levelname)s - %(message)s", datefmt="%Y-%m-%dT%H:%M:%S%z"):
         super().__init__(fmt=fmt, datefmt=datefmt)
+        self.tz = datetime.now().astimezone().tzinfo
+
+    def formatTime(self, record, datefmt=None):
+        dt = datetime.fromtimestamp(record.created, self.tz)
+        return dt.strftime(self.datefmt)
 
     def format(self, record):
         original_message = super().format(record)
