@@ -10,7 +10,7 @@ class IAudioExtractor(ABC):
     """
 
     @abstractmethod
-    def extract_all_audio(self, video_path: str, output_dir: Path) -> List[Path]:
+    async def extract_all_audio(self, video_path: str, output_dir: Path) -> List[Path]:
         """
         ビデオファイルからすべての音声トラックを抽出し、指定されたディレクトリに保存します。
 
