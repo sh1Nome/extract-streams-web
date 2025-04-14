@@ -14,6 +14,14 @@ LOG_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), '../../logs'))
 os.makedirs(LOG_DIR, exist_ok=True)
 
 class IndentedFormatter(logging.Formatter):
+    """
+    ログメッセージをインデントしてフォーマットするカスタムフォーマッター。
+
+    Attributes:
+        fmt (str): ログメッセージのフォーマット。
+        datefmt (str): 日付のフォーマット。
+        tz (datetime.tzinfo): タイムゾーン情報。
+    """
     def __init__(self, fmt="%(asctime)s - %(levelname)s - %(message)s", datefmt="%Y-%m-%dT%H:%M:%S%z"):
         super().__init__(fmt=fmt, datefmt=datefmt)
         self.tz = datetime.now().astimezone().tzinfo
