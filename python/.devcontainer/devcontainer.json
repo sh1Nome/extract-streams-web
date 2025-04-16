@@ -1,6 +1,9 @@
 {
   "name": "Python DevContainer",
-  "dockerComposeFile": "../../docker-compose.yml",
+  "dockerComposeFile": [
+    "../../docker-compose.yml",
+    "../../docker-compose.dev.yml"
+  ],
   "service": "python",
   "workspaceFolder": "/home/work/apisource",
   "customizations": {

@@ -7,7 +7,6 @@ services:
     ports:
       - "8000:8000"
     working_dir: "/home/work/apisource"
-    command: ["sh", "/home/work/apisource/run_server.sh"]
     environment:
       - TZ=Asia/Tokyo
   node:
