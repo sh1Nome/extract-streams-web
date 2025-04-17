@@ -1,3 +1,7 @@
 services:
   python:
+    build:
+      context: ./python
+      args:
+        ENV: development
     command: ["sleep", "infinity"]
