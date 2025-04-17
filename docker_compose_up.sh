@@ -1,3 +1,3 @@
 #!/bin/sh
 
-docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d --build
+docker-compose -f compose.yml -f compose.prod.yml up -d --build
