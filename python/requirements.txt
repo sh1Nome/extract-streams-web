@@ -1,3 +1,6 @@
+# 本ファイルは本番環境用の依存関係のみを記載します。
+# 開発環境用の依存関係はrequirements-dev.txtを参照してください。
+
 fastapi == 0.115.12
 uvicorn[standard] == 0.34.0
 python-multipart == 0.0.20
