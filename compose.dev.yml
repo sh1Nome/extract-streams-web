@@ -2,4 +2,3 @@ services:
   python:
     build:
       target: "development"
-    command: ["sleep", "infinity"]
