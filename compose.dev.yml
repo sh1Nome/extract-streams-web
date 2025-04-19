@@ -1,7 +1,5 @@
 services:
   python:
     build:
-      context: ./python
-      args:
-        ENV: development
+      target: "development"
     command: ["sleep", "infinity"]

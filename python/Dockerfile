@@ -1,19 +1,20 @@
-FROM python:3-slim
+# マルチステージビルドで環境を分離
+FROM python:3-slim AS base
 
-ARG ENV=production
+RUN apt update && apt install -y ffmpeg=7:5.1.6-0+deb12u1
 
-RUN apt update \
-    && apt install -y ffmpeg=7:5.1.6-0+deb12u1
-
-RUN groupadd work \
-    && useradd -g work work \
-    && echo "work:password" | chpasswd
+RUN groupadd work && useradd -g work work && echo "work:password" | chpasswd
 
 USER work
-
 WORKDIR /home/work
 
 COPY ./requirements.txt ./
-COPY ./requirements-dev.txt ./
+
+# 本番環境
+FROM base AS production
 RUN pip install --no-cache-dir -r requirements.txt
-RUN if [ "$ENV" = "development" ]; then pip install --no-cache-dir -r requirements-dev.txt; fi
+
+# 開発環境
+FROM base AS development
+COPY ./requirements-dev.txt ./
+RUN pip install --no-cache-dir -r requirements.txt && pip install --no-cache-dir -r requirements-dev.txt

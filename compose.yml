@@ -1,6 +1,7 @@
 services:
   python:
-    build: "./python"
+    build:
+      context: "./python"
     init: true
     volumes:
       - "./python/apisource:/home/work/apisource"
@@ -8,6 +9,6 @@ services:
       - "8000:8000"
     working_dir: "/home/work/apisource"
     environment:
-      - TZ=Asia/Tokyo
+      - "TZ=Asia/Tokyo"
   node:
     image: "node:23-slim"
