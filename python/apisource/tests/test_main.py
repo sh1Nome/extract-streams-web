@@ -5,6 +5,7 @@ FastAPIのTestClientを使用してリクエストをシミュレートし、レ
 テストケース:
 - test_root_endpoint: ルートエンドポイントが404ステータスコードを返すことを確認します。
 - test_extract_audio_invalid_file_type: 無効なファイルタイプをアップロードした場合に、400ステータスコードと適切なエラーメッセージが返されることを検証します。
+- test_extract_audio_empty_file: 空の動画ファイルをアップロードした場合に、400ステータスコードと適切なエラーメッセージが返されることを検証します。
 """
 
 from fastapi.testclient import TestClient
@@ -34,3 +35,18 @@ def test_extract_audio_invalid_file_type():
     )
     assert response.status_code == 400
     assert response.json()["message"] == "Invalid file type: the uploaded file must be a video."
+
+def test_extract_audio_empty_file():
+    """
+    空のファイルでextract_audioエンドポイントをテスト。
+
+    このテストは、空の動画ファイルを/api/v1/extract_audioエンドポイントにアップロードした際に、
+    適切なエラーメッセージが返されることを検証します。
+    """
+    response = client.post(
+        "/api/v1/extract_audio",
+        files={"file": ("empty.mp4", b"", "video/mp4")}
+    )
+
+    assert response.status_code == 500
+    assert response.json()["message"] == "Audio extraction failed"
