@@ -3,7 +3,7 @@ from pathlib import Path
 from typing import List
 import asyncio
 
-from domain.interfaces.audio_extractor_interface import IAudioExtractor, AudioTrackRetrievalException, AudioExtractionFailedException
+from domain.interfaces.audio_extractor_interface import IAudioExtractor, AudioExtractionFailedException
 
 class FFmpegAudioExtractor(IAudioExtractor):
     """
@@ -21,15 +21,9 @@ class FFmpegAudioExtractor(IAudioExtractor):
 
         Returns:
             list: 利用可能な音声トラックのインデックスリスト。
-
-        Raises:
-            AudioTrackRetrievalException: 音声トラックの取得に失敗した場合。
         """
-        try:
-            probe = ffmpeg.probe(video_path, v='error', select_streams='a', show_entries='stream=index')
-            return [stream['index'] for stream in probe['streams']]
-        except ffmpeg.Error:
-            raise AudioTrackRetrievalException()
+        probe = ffmpeg.probe(video_path, v='error', select_streams='a', show_entries='stream=index')
+        return [stream['index'] for stream in probe['streams']]
 
     async def __extract_audio(self, video_path: str, output_path: Path, track_index: int):
         """
@@ -39,19 +33,13 @@ class FFmpegAudioExtractor(IAudioExtractor):
             video_path (str): 音声を抽出するビデオファイルのパス。
             output_path (Path): 抽出した音声を保存するパス。
             track_index (int): 抽出する音声トラックのインデックス。
-
-        Raises:
-            AudioExtractionFailedException: 音声抽出に失敗した場合。
         """
-        try:
-            process = (
-                ffmpeg.input(video_path)
-                .output(str(output_path), acodec='aac', audio_bitrate='192k', map=f"0:{track_index}")
-                .run_async(quiet=True)
-            )
-            await asyncio.to_thread(process.wait)
-        except ffmpeg.Error as e:
-            raise AudioExtractionFailedException()
+        process = (
+            ffmpeg.input(video_path)
+            .output(str(output_path), acodec='aac', audio_bitrate='192k', map=f"0:{track_index}")
+            .run_async(quiet=True)
+        )
+        await asyncio.to_thread(process.wait)
 
     async def extract_all_audio(self, video_path: str, output_dir: Path) -> List[Path]:
         """
@@ -65,7 +53,6 @@ class FFmpegAudioExtractor(IAudioExtractor):
             List[Path]: 抽出された音声ファイルのパスのリスト。
 
         Raises:
-            AudioTrackRetrievalException: 音声トラックの取得に失敗した場合。
             AudioExtractionFailedException: 音声抽出に失敗した場合。
         """
         try:

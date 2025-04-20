@@ -1,27 +1,9 @@
 from fastapi import Request
 from fastapi.responses import JSONResponse
 
-from domain.interfaces.audio_extractor_interface import AudioExtractionFailedException, AudioTrackRetrievalException
+from domain.interfaces.audio_extractor_interface import AudioExtractionFailedException
 from api.v1.endpoints.validation_exceptions import InvalidFileTypeException
 from infrastructure.framework.di import get_error_logger
-
-async def audio_track_retrieval_exception_handler(request: Request, exc: AudioTrackRetrievalException):
-    """
-    AudioTrackRetrievalExceptionを処理する例外ハンドラー。
-
-    オーディオトラックの取得中に発生した例外を処理し、適切なエラーメッセージを含むJSONレスポンスを返します。
-
-    Args:
-        request (Request): 受信したHTTPリクエスト。
-        exc (AudioTrackRetrievalException): 発生した例外。
-
-    Returns:
-        JSONResponse: エラーメッセージを含むHTTPレスポンス。
-    """
-    get_error_logger().error(f"AudioTrackRetrievalException: {exc}", exc_info=True)
-    _ = request.state.translations.gettext
-    message = _("error.audio_track_retrieval")
-    return JSONResponse(status_code=500, content={"message": message})
 
 async def audio_extraction_failed_exception_handler(request: Request, exc: AudioExtractionFailedException):
     """
@@ -80,7 +62,6 @@ def get_exception_handlers():
     例外ハンドラーのリストを返す関数。
     """
     return [
-        (AudioTrackRetrievalException, audio_track_retrieval_exception_handler),
         (AudioExtractionFailedException, audio_extraction_failed_exception_handler),
         (InvalidFileTypeException, invalid_file_type_exception_handler),
         (Exception, generic_exception_handler),
