@@ -55,9 +55,12 @@ class AudioExtractorService:
             archive_file_name = Path(archive_path).name
 
             # 一時ファイルとディレクトリを削除
-            os.remove(tmp_file.name)
-            shutil.rmtree(audio_dir)
-            os.remove(archive_path)
+            if os.path.exists(tmp_file.name):
+                os.remove(tmp_file.name)
+            if os.path.exists(audio_dir):
+                shutil.rmtree(audio_dir)
+            if os.path.exists(archive_path):
+                os.remove(archive_path)
 
             # 圧縮データとファイル名を返却
             return archive_bytes, archive_file_name
