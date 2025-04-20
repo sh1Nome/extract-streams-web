@@ -1,11 +1,6 @@
 """
 このモジュールは、FastAPIアプリケーションのテストケースを含んでいます。
 FastAPIのTestClientを使用してリクエストをシミュレートし、レスポンスを検証します。
-
-テストケース:
-- test_root_endpoint: ルートエンドポイントが404ステータスコードを返すことを確認します。
-- test_extract_audio_invalid_file_type: 無効なファイルタイプをアップロードした場合に、400ステータスコードと適切なエラーメッセージが返されることを検証します。
-- test_extract_audio_empty_file: 空の動画ファイルをアップロードした場合に、500ステータスコードと適切なエラーメッセージが返されることを検証します。
 """
 
 from fastapi.testclient import TestClient
