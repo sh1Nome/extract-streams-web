@@ -20,6 +20,10 @@ jobs:
         run: |
           docker compose -f compose.yml -f compose.dev.yml up -d --build
 
+      - name: 必要なディレクトリを作成し権限を設定
+        run: |
+          docker compose exec python sh -c "mkdir -p /home/work/apisource/logs && chmod -R 700 /home/work/apisource"
+
       - name: コンテナ内でテストを実行
         run: |
           docker compose exec python sh /home/work/apisource/tests/run_tests.sh
