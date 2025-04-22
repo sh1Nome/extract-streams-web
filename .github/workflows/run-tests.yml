@@ -20,6 +20,10 @@ jobs:
         run: |
           docker compose -f compose.yml -f compose.dev.yml up -d --build
 
+      - name: テスト結果のログを表示
+        run: |
+          docker compose logs python
+
       - name: Docker Composeでサービスを停止
         run: |
           docker compose down --rmi local -v
