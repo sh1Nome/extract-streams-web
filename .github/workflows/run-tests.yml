@@ -28,6 +28,11 @@ jobs:
           pip install -r python/requirements.txt
           pip install -r python/requirements-dev.txt
 
+      - name: 翻訳ファイルを更新
+        run: |
+          source venv/bin/activate
+          bash python/apisource/translations/update_translations.sh
+
       - name: テストを実行
         run: |
           source venv/bin/activate
