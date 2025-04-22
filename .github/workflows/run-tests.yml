@@ -23,10 +23,13 @@ jobs:
 
       - name: 依存関係をインストール
         run: |
+          python -m venv venv
+          source venv/bin/activate
           pip install -r python/requirements-dev.txt
 
       - name: テストを実行
         run: |
+          source venv/bin/activate
           sh python/apisource/tests/run_tests.sh
 
       - name: テスト結果のログを表示
