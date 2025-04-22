@@ -1,4 +1,4 @@
-name: テストをDocker Composeで実行
+name: テストをローカルで実行
 
 on:
   push:
@@ -16,14 +16,23 @@ jobs:
       - name: コードをチェックアウト
         uses: actions/checkout@v4
 
-      - name: Docker Composeでサービスを起動してテストを実行
+      - name: Pythonをセットアップ
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+
+      - name: 依存関係をインストール
         run: |
-          docker compose -f compose.yml -f compose.dev.yml up -d --build
+          python -m venv venv
+          source venv/bin/activate
+          pip install -r python/requirements-dev.txt
+
+      - name: テストを実行
+        run: |
+          source venv/bin/activate
+          pytest python/apisource/tests
 
       - name: テスト結果のログを表示
         run: |
-          docker compose logs python
-
-      - name: Docker Composeでサービスを停止
-        run: |
-          docker compose down --rmi local -v
+          cat python/apisource/logs/access.log
+          cat python/apisource/logs/error.log
