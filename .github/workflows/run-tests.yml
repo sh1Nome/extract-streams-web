@@ -16,22 +16,9 @@ jobs:
       - name: コードをチェックアウト
         uses: actions/checkout@v4
 
-      - name: Docker Composeでサービスを起動
+      - name: Docker Composeでサービスを起動してテストを実行
         run: |
           docker compose -f compose.yml -f compose.dev.yml up -d --build
-
-      - name: ファイルとディレクトリの権限を設定
-        run: |
-          find . -type d -exec chmod 755 {} +
-          find . -type f -exec chmod 644 {} +
-
-      - name: ログディレクトリを作成
-        run: |
-          mkdir -p ./python/apisource/logs
-
-      - name: テストスクリプトを実行
-        run: |
-          docker compose exec python sh /home/work/apisource/tests/run_tests.sh
 
       - name: Docker Composeでサービスを停止
         run: |

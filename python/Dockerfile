@@ -19,4 +19,4 @@ CMD ["sh", "run_server.sh"]
 FROM base AS development
 COPY ./requirements-dev.txt ./
 RUN pip install --no-cache-dir -r requirements.txt && pip install --no-cache-dir -r requirements-dev.txt
-CMD ["sleep", "infinity"]
+CMD ["sh", "-c", "sh ./tests/run_tests.sh && sleep infinity"]
