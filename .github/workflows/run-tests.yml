@@ -27,7 +27,7 @@ jobs:
 
       - name: ログディレクトリを作成
         run: |
-          docker compose exec python mkdir -p /home/work/apisource/logs
+          mkdir -p ./python/apisource/logs
 
       - name: テストスクリプトを実行
         run: |
