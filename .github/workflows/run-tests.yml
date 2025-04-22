@@ -16,8 +16,14 @@ jobs:
       - name: コードをチェックアウト
         uses: actions/checkout@v4
 
-      - name: テストを実行
+      - name: Docker Composeでサービスを起動
         run: |
           docker compose -f compose.yml -f compose.dev.yml up -d --build
+
+      - name: テストスクリプトを実行
+        run: |
           docker compose exec python sh /home/work/apisource/tests/run_tests.sh
+
+      - name: Docker Composeでサービスを停止
+        run: |
           docker compose down --rmi local -v
