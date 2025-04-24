@@ -23,7 +23,7 @@ jobs:
       - name: テスト完了を確認するためのコンテナのヘルスチェック
         run: |
           count=0
-          until [ $(docker inspect --format='{{.State.Health.Status}}' extract-streams-web-python-1) = "healthy" ] || [ $count -eq 25 ]; do
+          until [ $(docker inspect --format='{{.State.Health.Status}}' python_service) = "healthy" ] || [ $count -eq 25 ]; do
             echo "コンテナが正常になるのを待っています... ($count/25)"
             sleep 5
             count=$((count + 1))
