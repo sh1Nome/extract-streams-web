@@ -20,6 +20,19 @@ jobs:
         run: |
           docker compose -f compose.yml -f compose.dev.yml up -d --build
 
+      - name: テスト完了を確認するためのコンテナのヘルスチェック
+        run: |
+          count=0
+          until [ $(docker inspect --format='{{.State.Health.Status}}' extract-streams-web-python-1) = "healthy" ] || [ $count -eq 25 ]; do
+            echo "コンテナが正常になるのを待っています... ($count/25)"
+            sleep 5
+            count=$((count + 1))
+          done
+          if [ $count -eq 25 ]; then
+            echo "コンテナが指定された試行回数内で正常になりませんでした。"
+            exit 1
+          fi
+
       - name: テスト結果のログを表示
         run: |
           docker compose logs python
