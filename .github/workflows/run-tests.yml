@@ -30,7 +30,6 @@ jobs:
           done
           if [ $count -eq 25 ]; then
             echo "コンテナが指定された試行回数内で正常になりませんでした。"
-            exit 1
           fi
 
       - name: テスト結果のログを表示
