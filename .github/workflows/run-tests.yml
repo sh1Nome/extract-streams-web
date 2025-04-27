@@ -18,6 +18,9 @@ jobs:
 
       - name: Docker Composeでサービスを起動してテストを実行
         run: |
+          sudo chown -R $USER:$USER .
+          find . -type f -exec chmod 644 {} +
+          find . -type d -exec chmod 755 {} +
           docker compose -f compose.yml -f compose.dev.yml up -d --build
 
       - name: テスト完了を確認するためのコンテナのヘルスチェック
