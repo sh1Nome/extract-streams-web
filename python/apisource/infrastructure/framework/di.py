@@ -12,7 +12,6 @@ from pathlib import Path
 
 # ログディレクトリの作成
 LOG_DIR = Path(os.getcwd()) / 'logs'
-LOG_DIR.mkdir(parents=True, exist_ok=True)
 
 class IndentedFormatter(logging.Formatter):
     """
