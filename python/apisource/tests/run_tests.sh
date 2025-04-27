@@ -13,7 +13,7 @@ fi
 
 # pytestを使用してテストを実行
 echo "pytestでテストを実行中..."
-$PYTEST_EXECUTABLE
+$PYTEST_EXECUTABLE --cache-clear
 
 # テスト結果の終了ステータスを取得
 TEST_STATUS=$?
