@@ -4,6 +4,5 @@ __pycache__
 # コンパイル済み翻訳ファイルを無視
 translations/**/*.mo
 
-# ログファイルを無視
-logs/access.log
-logs/error.log
+# ログディレクトリを無視
+logs/
