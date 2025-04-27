@@ -23,13 +23,18 @@ jobs:
       - name: テスト完了を確認するためのコンテナのヘルスチェック
         run: |
           count=0
-          until [ $(docker inspect --format='{{.State.Health.Status}}' python_service) = "healthy" ] || [ $count -eq 25 ]; do
-            echo "コンテナが正常になるのを待っています... ($count/25)"
+          until [ $(docker inspect --format='{{.State.Health.Status}}' python_service) = "healthy" ] || \
+                [ $(docker inspect --format='{{.State.Health.Status}}' python_service) = "unhealthy" ] || \
+                [ $count -eq 25 ]; do
+            echo "テストを実行中です... ($count/25)"
             sleep 5
             count=$((count + 1))
           done
+          if [ $(docker inspect --format='{{.State.Health.Status}}' python_service) = "unhealthy" ]; then
+            echo "テストが失敗しました。"
+          fi
           if [ $count -eq 25 ]; then
-            echo "コンテナが指定された試行回数内で正常になりませんでした。"
+            echo "制限時間内にテストが完了しませんでした。"
           fi
 
       - name: テスト結果のログを表示
