@@ -5,7 +5,7 @@
       "name": "Python: Uvicorn",
       "type": "debugpy",
       "request": "launch",
-      "program": "../.local/bin/uvicorn",
+      "module": "uvicorn",
       "args": [
         "main:app",
         "--host", "0.0.0.0",
