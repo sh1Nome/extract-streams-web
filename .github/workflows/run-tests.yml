@@ -18,17 +18,8 @@ jobs:
 
       - name: Docker Composeでサービスを起動してテストを実行
         run: |
-          sudo chown -R $USER:$USER .
-          find . -type f -exec chmod 644 {} +
-          find . -type d -exec chmod 755 {} +
+          sh update_env.sh
           docker compose -f compose.yml -f compose.dev.yml up -d --build
-
-      - name: デバッグ用_権限確認
-        run: |
-          id
-          ls -ld python/apisource
-          docker exec python_service id
-          docker exec python_service ls -ld /home/work/apisource
 
       - name: テスト完了を確認するためのコンテナのヘルスチェック
         run: |
