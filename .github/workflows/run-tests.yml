@@ -25,6 +25,7 @@ jobs:
 
       - name: デバッグ用_権限確認
         run: |
+          id
           docker exec python_service ls -ld /home/work/apisource
           docker exec python_service ls -ld /home/work/apisource/logs
 
