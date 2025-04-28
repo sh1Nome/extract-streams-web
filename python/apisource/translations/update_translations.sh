@@ -4,13 +4,13 @@
 cd "$(dirname "$0")"
 
 # 新しいメッセージを抽出してmessages.potを更新
-~/.local/bin/pybabel extract -F babel.cfg -o messages.pot ..
+pybabel extract -F babel.cfg -o messages.pot ..
 
 # 新しいメッセージで.poファイルを更新
-~/.local/bin/pybabel update -i messages.pot -d .
+pybabel update -i messages.pot -d .
 
 # .poファイルをコンパイルして.moファイルを生成
-~/.local/bin/pybabel compile -d .
+pybabel compile -d .
 
 # POT-Creation-Dateは翻訳テンプレートが生成された日時を示すメタデータです。
 # この処理は、スクリプトを実行するたびにPOT-Creation-Dateの差分が出ないようにするためです。
