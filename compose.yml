@@ -3,12 +3,13 @@ services:
     container_name: "python_service"
     build:
       context: "./python"
+    user: "${USER_ID}:${GROUP_ID}"
     init: true
     volumes:
       - "./python/apisource:/app"
     ports:
       - "8000:8000"
     environment:
-      - "TZ=Asia/Tokyo"
+      - "TZ=${TZ}"
   node:
     image: "node:23-slim"
