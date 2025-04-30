@@ -1,6 +1,7 @@
 #!/bin/sh
 
-# テストスクリプト: FastAPIアプリケーションのテストを実行
+# 翻訳ファイルを更新するスクリプトを実行
+sh /app/translations/update_translations.sh
 
 # 環境変数の設定
 export PYTHONPATH=/app
