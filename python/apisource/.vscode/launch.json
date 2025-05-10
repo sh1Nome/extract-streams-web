@@ -5,14 +5,14 @@
       "name": "Python: Uvicorn",
       "type": "debugpy",
       "request": "launch",
-      "program": "../.local/bin/uvicorn",
+      "module": "uvicorn",
       "args": [
         "main:app",
         "--host", "0.0.0.0",
         "--reload"
       ],
-      "console": "integratedTerminal",
-      "justMyCode": true
+      "console": "integratedTerminal", // Uvicornの標準出力・標準エラーをVS Codeの統合ターミナルに表示
+      "justMyCode": true // ユーザー自身のコードのみデバッグ対象
     }
   ]
 }

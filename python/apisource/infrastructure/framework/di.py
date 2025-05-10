@@ -8,10 +8,11 @@ from infrastructure.ffmpeg_audio_extractor import FFmpegAudioExtractor
 from infrastructure.zip_archiver import ZipArchiver
 from service.audio_extractor_service import AudioExtractorService
 from datetime import datetime
+from pathlib import Path
 
-# ログ設定
-LOG_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), '../../logs'))
-os.makedirs(LOG_DIR, exist_ok=True)
+# ログディレクトリの作成
+LOG_DIR = Path(os.getcwd()) / 'logs'
+LOG_DIR.mkdir(parents=True, exist_ok=True)
 
 class IndentedFormatter(logging.Formatter):
     """

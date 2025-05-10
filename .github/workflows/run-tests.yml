@@ -1,0 +1,49 @@
+name: テストをDocker Composeで実行
+
+on:
+  push:
+    branches:
+      - 'main'
+      - 'develop/**'
+  pull_request:
+    branches:
+      - 'main'
+      - 'develop/**'
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: コードをチェックアウト
+        uses: actions/checkout@v4
+
+      - name: Docker Composeでサービスを起動してテストを実行
+        run: |
+          sh update_env.sh
+          docker compose -f compose.yml -f compose.dev.yml up -d --build
+
+      - name: テスト完了を確認するためのコンテナのヘルスチェック
+        run: |
+          count=0
+          until [ $(docker inspect --format='{{.State.Health.Status}}' python_service) = "healthy" ] || \
+                [ $(docker inspect --format='{{.State.Health.Status}}' python_service) = "unhealthy" ] || \
+                [ $count -eq 25 ]; do
+            echo "テストを実行中です... ($count/25)"
+            sleep 5
+            count=$((count + 1))
+          done
+          if [ $(docker inspect --format='{{.State.Health.Status}}' python_service) = "unhealthy" ]; then
+            echo "テストが失敗しました。"
+          fi
+          if [ $count -eq 25 ]; then
+            echo "制限時間内にテストが完了しませんでした。"
+          fi
+
+      - name: テスト結果のログを表示
+        run: |
+          docker compose logs python
+
+      - name: Docker Composeでサービスを停止
+        run: |
+          docker compose down --rmi local -v

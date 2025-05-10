@@ -1,19 +1,14 @@
 #!/bin/sh
 
-# テストスクリプト: FastAPIアプリケーションのテストを実行
+# 翻訳ファイルを更新するスクリプトを実行
+sh /app/translations/update_translations.sh
 
 # 環境変数の設定
-export PYTHONPATH=~/apisource
-PYTEST_EXECUTABLE=~/.local/bin/pytest
-
-if [ ! -x "$PYTEST_EXECUTABLE" ]; then
-    echo "pytestが見つかりません。インストールされていることを確認してください。"
-    exit 1
-fi
+export PYTHONPATH=/app
 
 # pytestを使用してテストを実行
 echo "pytestでテストを実行中..."
-$PYTEST_EXECUTABLE
+pytest
 
 # テスト結果の終了ステータスを取得
 TEST_STATUS=$?
