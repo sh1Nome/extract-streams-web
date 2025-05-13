@@ -26,6 +26,7 @@ jobs:
       - name: テスト完了を確認するためのコンテナのヘルスチェック
         run: |
           count=0
+          result=0
           until [ $(docker inspect --format='{{.State.Health.Status}}' python_service) = "healthy" ] || \
                 [ $(docker inspect --format='{{.State.Health.Status}}' python_service) = "unhealthy" ] || \
                 [ $count -eq 25 ]; do
@@ -35,14 +36,24 @@ jobs:
           done
           if [ $(docker inspect --format='{{.State.Health.Status}}' python_service) = "unhealthy" ]; then
             echo "テストが失敗しました。"
+            result=1
           fi
           if [ $count -eq 25 ]; then
             echo "制限時間内にテストが完了しませんでした。"
+            result=1
           fi
+          echo $result > result.txt
 
       - name: テスト結果のログを表示
         run: |
           docker compose logs python
+
+      - name: テスト失敗時にCIを失敗させる
+        run: |
+          if [ -f result.txt ] && [ $(cat result.txt) -ne 0 ]; then
+            echo "CIを失敗させます。"
+            exit 1
+          fi
 
       - name: Docker Composeでサービスを停止
         run: |
