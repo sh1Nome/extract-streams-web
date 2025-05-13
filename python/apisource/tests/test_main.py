@@ -82,9 +82,3 @@ def test_extract_audio_empty_file():
 
     assert response.status_code == 500
     assert response.json()["message"] == "Audio extraction failed"
-
-def test_dummy_failure():
-    """
-    必ず失敗するダミーのテストケース。
-    """
-    assert False, "このテストは必ず失敗します"
