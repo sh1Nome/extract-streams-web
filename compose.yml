@@ -14,4 +14,15 @@ services:
     environment:
       - "TZ=${TZ}"
   node:
-    image: "node:23-slim"
+    build:
+      context: "./node"
+      args:
+        USER_ID: ${USER_ID}
+        GROUP_ID: ${GROUP_ID}
+    init: true
+    volumes:
+      - "./node/frontend:/app"
+    ports:
+      - "5173:5173"
+    environment:
+      - "TZ=${TZ}"
