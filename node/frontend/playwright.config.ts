@@ -2,48 +2,48 @@ import process from 'node:process'
 import { defineConfig, devices } from '@playwright/test'
 
 /**
- * Read environment variables from file.
+ * ファイルから環境変数を読み込みます。
  * https://github.com/motdotla/dotenv
  */
 // require('dotenv').config();
 
 /**
- * See https://playwright.dev/docs/test-configuration.
+ * Playwright のテスト設定については https://playwright.dev/docs/test-configuration を参照してください。
  */
 export default defineConfig({
   testDir: './e2e',
-  /* Maximum time one test can run for. */
+  /* 1つのテストが実行できる最大時間（ミリ秒）。 */
   timeout: 30 * 1000,
   expect: {
     /**
-     * Maximum time expect() should wait for the condition to be met.
-     * For example in `await expect(locator).toHaveText();`
+     * expect() が条件を満たすまで待機する最大時間。
+     * 例: `await expect(locator).toHaveText();`
      */
     timeout: 5000,
   },
-  /* Fail the build on CI if you accidentally left test.only in the source code. */
+  /* ソースコードに test.only が残っていた場合、CI でビルドを失敗させます。 */
   forbidOnly: !!process.env.CI,
-  /* Retry on CI only */
+  /* CI のみリトライを有効化 */
   retries: process.env.CI ? 2 : 0,
-  /* Opt out of parallel tests on CI. */
+  /* CI では並列テストを無効化。 */
   workers: process.env.CI ? 1 : undefined,
-  /* Reporter to use. See https://playwright.dev/docs/test-reporters */
+  /* 使用するレポーター。詳細: https://playwright.dev/docs/test-reporters */
   reporter: 'html',
-  /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
+  /* 以下は全プロジェクト共通の設定。詳細: https://playwright.dev/docs/api/class-testoptions */
   use: {
-    /* Maximum time each action such as `click()` can take. Defaults to 0 (no limit). */
+    /* click() など各アクションの最大時間。デフォルトは 0（無制限）。 */
     actionTimeout: 0,
-    /* Base URL to use in actions like `await page.goto('/')`. */
+    /* `await page.goto('/')` などで使用するベースURL。 */
     baseURL: process.env.CI ? 'http://localhost:4173' : 'http://localhost:5173',
 
-    /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
+    /* 失敗したテストをリトライする際にトレースを収集。詳細: https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',
 
-    /* Only on CI systems run the tests headless */
+    /* CI 環境のみヘッドレスでテストを実行 */
     headless: !!process.env.CI,
   },
 
-  /* Configure projects for major browsers */
+  /* 主要ブラウザ用のプロジェクト設定 */
   projects: [
     {
       name: 'chromium',
@@ -64,7 +64,7 @@ export default defineConfig({
       },
     },
 
-    /* Test against mobile viewports. */
+    /* モバイル画面サイズでのテスト例 */
     // {
     //   name: 'Mobile Chrome',
     //   use: {
@@ -78,7 +78,7 @@ export default defineConfig({
     //   },
     // },
 
-    /* Test against branded browsers. */
+    /* ブランドブラウザでのテスト例 */
     // {
     //   name: 'Microsoft Edge',
     //   use: {
@@ -93,15 +93,15 @@ export default defineConfig({
     // },
   ],
 
-  /* Folder for test artifacts such as screenshots, videos, traces, etc. */
+  /* スクリーンショットや動画、トレースなどのテスト成果物の保存先 */
   // outputDir: 'test-results/',
 
-  /* Run your local dev server before starting the tests */
+  /* テスト開始前にローカル開発サーバーを起動 */
   webServer: {
     /**
-     * Use the dev server by default for faster feedback loop.
-     * Use the preview server on CI for more realistic testing.
-     * Playwright will re-use the local server if there is already a dev-server running.
+     * デフォルトでは開発サーバーを使用し、フィードバックループを高速化。
+     * CI ではプレビューサーバーを使用し、より現実的なテストを実施。
+     * 既に dev-server が起動している場合は再利用します。
      */
     command: process.env.CI ? 'npm run preview' : 'npm run dev',
     port: process.env.CI ? 4173 : 5173,
