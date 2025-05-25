@@ -32,5 +32,4 @@ FROM base AS development
 
 # 無限にスリープ
 USER appuser
-CMD ["sleep", "infinity"]
-# CMD ["sh", "-c", "npm install && sleep infinity"]
+CMD ["sh", "-c", "npm install && sleep infinity"]
