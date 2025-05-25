@@ -13,7 +13,8 @@ ARG GROUP_ID
 RUN getent group $GROUP_ID && groupdel $(getent group $GROUP_ID | cut -d: -f1) || true && \
     getent passwd $USER_ID && userdel -r $(getent passwd $USER_ID | cut -d: -f1) || true && \
     groupadd -g $GROUP_ID appuser && \
-    useradd -m -u $USER_ID -g appuser appuser
+    useradd -m -u $USER_ID -g appuser appuser && \
+    chown appuser:appuser /app
 
 # 依存解決
 RUN apt update && apt install -y ffmpeg=7:5.1.6-0+deb12u1

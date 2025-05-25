@@ -1,0 +1,17 @@
+{
+  "name": "Node DevContainer",
+  "dockerComposeFile": [
+    "../../compose.yml",
+    "../../compose.dev.yml"
+  ],
+  "service": "node",
+  "workspaceFolder": "/app",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "Vue.volar",
+        "ms-playwright.playwright"
+      ]
+    }
+  }
+}

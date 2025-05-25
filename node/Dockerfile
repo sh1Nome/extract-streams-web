@@ -13,7 +13,8 @@ ARG GROUP_ID
 RUN getent group $GROUP_ID && groupdel $(getent group $GROUP_ID | cut -d: -f1) || true && \
     getent passwd $USER_ID && userdel -r $(getent passwd $USER_ID | cut -d: -f1) || true && \
     groupadd -g $GROUP_ID appuser && \
-    useradd -m -u $USER_ID -g appuser appuser
+    useradd -m -u $USER_ID -g appuser appuser && \
+    chown appuser:appuser /app
 
 ####################################################################################################
 # 本番環境
@@ -31,4 +32,5 @@ FROM base AS development
 
 # 無限にスリープ
 USER appuser
-CMD ["sh", "-c", "npm install && sleep infinity"]
+CMD ["sleep", "infinity"]
+# CMD ["sh", "-c", "npm install && sleep infinity"]

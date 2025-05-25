@@ -21,7 +21,7 @@ services:
         GROUP_ID: ${GROUP_ID}
     init: true
     volumes:
-      - "./node/frontend:/app"
+      - "./node:/app"
     ports:
       - "5173:5173"
     environment:
