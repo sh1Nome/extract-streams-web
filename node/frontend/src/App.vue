@@ -1,5 +1,6 @@
 <script setup lang="ts"></script>
 
 <template>
-  <h1>Hello World!</h1>
+  <v-icon icon="mdi-home" />
+  <v-card text="Hello World!" variant="tonal"></v-card>
 </template>

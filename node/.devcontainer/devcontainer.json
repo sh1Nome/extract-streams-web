@@ -12,7 +12,8 @@
         "dbaeumer.vscode-eslint"
       ],
       "settings": {
-        "editor.defaultFormatter": "esbenp.prettier-vscode" // デフォルトのフォーマッタをPrettierに設定
+        "editor.defaultFormatter": "esbenp.prettier-vscode", // デフォルトのフォーマッタをPrettierに設定
+        "editor.formatOnSave": true
       }
     }
   }
