@@ -2,4 +2,4 @@
 
 sh update_env.sh
 
-docker-compose down --rmi local -v
+docker compose down --rmi local -v

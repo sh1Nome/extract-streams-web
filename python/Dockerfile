@@ -17,7 +17,7 @@ RUN getent group $GROUP_ID && groupdel $(getent group $GROUP_ID | cut -d: -f1) |
     chown appuser:appuser /app
 
 # 依存解決
-RUN apt update && apt install -y ffmpeg=7:5.1.6-0+deb12u1
+RUN apt update && apt install -y ffmpeg
 COPY ./requirements.txt ./
 
 ####################################################################################################
