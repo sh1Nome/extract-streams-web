@@ -19,8 +19,25 @@ async function handleExtractAudio() {
     if (!response.ok) {
       throw new Error("リクエストに失敗しました");
     }
-    // レスポンスの処理（例: ダウンロードやメッセージ表示など）
-    console.log("音声抽出リクエスト成功");
+    // zipファイルのblobを取得
+    const blob = await response.blob();
+    // ファイル名をContent-Dispositionから取得
+    const disposition = response.headers.get("Content-Disposition");
+    let filename = "audio.zip";
+    if (disposition) {
+      const match = disposition.match(/filename="?([^";]+)"?/);
+      if (match) filename = match[1];
+    }
+    // ダウンロード処理
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    window.URL.revokeObjectURL(url);
+    console.log("ダウンロード完了");
   } catch (error) {
     console.error("エラー:", error);
   }
