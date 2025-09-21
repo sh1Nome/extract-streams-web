@@ -8,7 +8,7 @@ Audio Extractor APIのエントリーポイント。
 from fastapi import FastAPI
 from api.v1.endpoints import extract_audio
 from infrastructure.framework.exception_handlers import get_exception_handlers
-from infrastructure.framework.middlewares import get_middlewares
+from infrastructure.framework.middlewares import setup_middlewares
 
 app = FastAPI(
     title="Audio Extractor API",
@@ -16,8 +16,7 @@ app = FastAPI(
 )
 
 # ミドルウェアの登録
-for middleware in get_middlewares():
-    app.middleware("http")(middleware)
+setup_middlewares(app)
 
 # 例外ハンドラーの登録
 for exception, handler in get_exception_handlers():

@@ -2,3 +2,6 @@ services:
   python:
     build:
       target: "production"
+  node:
+    build:
+      target: "production"

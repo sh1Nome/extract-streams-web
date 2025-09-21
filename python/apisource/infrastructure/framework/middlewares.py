@@ -4,8 +4,9 @@ from babel.support import Translations
 import os
 
 from infrastructure.framework.di import get_access_logger
+from fastapi.middleware.cors import CORSMiddleware
 
-LOCALE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), '../../translations'))  # パスを修正
+LOCALE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), '../../translations'))
 DEFAULT_LANGUAGE = 'en'
 
 async def add_translation_middleware(request: Request, call_next):
@@ -49,8 +50,22 @@ async def log_requests_middleware(request: Request, call_next):
     )
     return response
 
-def get_middlewares():
+def setup_middlewares(app):
     """
-    ミドルウェアのリストを返す関数。
+    FastAPIアプリに必要な全ミドルウェアを登録する関数。
+    関数型・クラス型ミドルウェアの両方を一元管理。
+    Args:
+        app (FastAPI): FastAPIアプリケーションインスタンス
     """
-    return [add_translation_middleware, log_requests_middleware]
+    # クラス型ミドルウェア（CORSなど）
+    app.add_middleware(
+        CORSMiddleware,
+        allow_origins=["http://localhost:5173"],
+        allow_credentials=True,
+        allow_methods=["*"],
+        allow_headers=["*"]
+    )
+
+    # 関数型ミドルウェア
+    app.middleware("http")(add_translation_middleware)
+    app.middleware("http")(log_requests_middleware)
